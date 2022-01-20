@@ -26,6 +26,7 @@
   text('.inline', import.meta.env.VITE_INLINE)
   text('.node-env', process.env.NODE_ENV)
   text('.env-object', JSON.stringify(import.meta.env, null, 2))
+  text('.meta-env', 'import.meta.env')
 
   function text(el, text) {
     document.querySelector(el).textContent = text
