@@ -9,6 +9,10 @@
   <code class="custom-prefix"></code>
 </p>
 <p>
+  import.meta.env.ENV_VAR:
+  <code class="env-var"></code>
+</p>
+<p>
   import.meta.env.VITE_EFFECTIVE_MODE_FILE_NAME: <code class="mode-file"></code>
 </p>
 <p>import.meta.env.VITE_INLINE: <code class="inline"></code></p>
@@ -22,6 +26,7 @@
   text('.prod', import.meta.env.PROD)
   text('.custom', import.meta.env.VITE_CUSTOM_ENV_VARIABLE)
   text('.custom-prefix', import.meta.env.CUSTOM_PREFIX_ENV_VARIABLE)
+  text('.env-var', import.meta.env.ENV_VAR)
   text('.mode-file', import.meta.env.VITE_EFFECTIVE_MODE_FILE_NAME)
   text('.inline', import.meta.env.VITE_INLINE)
   text('.node-env', process.env.NODE_ENV)
