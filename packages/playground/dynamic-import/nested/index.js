@@ -6,6 +6,12 @@ async function setView(view) {
   text('.view', msg)
 }
 
+const setRawAssets = async (selector, name) => {
+  const module = await import(`../assets/${name}.svg?raw`)
+  text(selector, module.default)
+}
+
+setRawAssets('.raw', 'user')
 ;['foo', 'bar'].forEach((id) => {
   document.querySelector(`.${id}`).addEventListener('click', () => setView(id))
 })

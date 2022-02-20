@@ -2,6 +2,11 @@ import { isBuild, untilUpdated } from '../../testUtils'
 
 test('should load literal dynamic import', async () => {
   await page.click('.baz')
+  await untilUpdated(() => page.textContent('.raw'), 'svg', true)
+})
+
+test('should load literal dynamic import', async () => {
+  await page.click('.baz')
   await untilUpdated(() => page.textContent('.view'), 'Baz view', true)
 })
 
