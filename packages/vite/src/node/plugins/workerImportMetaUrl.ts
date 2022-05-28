@@ -90,13 +90,6 @@ export function workerImportMetaUrlPlugin(config: ResolvedConfig): Plugin {
           const urlEnd = urlStart + emptyUrl.length
           const rawUrl = code.slice(urlStart, urlEnd)
 
-          if (options?.ssr) {
-            this.error(
-              `\`new URL(url, import.meta.url)\` is not supported in SSR.`,
-              urlIndex
-            )
-          }
-
           // potential dynamic template string
           if (rawUrl[0] === '`' && /\$\{/.test(rawUrl)) {
             this.error(
