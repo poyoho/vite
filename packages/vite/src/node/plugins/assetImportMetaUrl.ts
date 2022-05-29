@@ -20,8 +20,10 @@ export function assetImportMetaUrlPlugin(config: ResolvedConfig): Plugin {
   return {
     name: 'vite:asset-import-meta-url',
     async transform(code, id, options) {
+      if (options?.ssr && config.ssr?.format === 'cjs') {
+        return
+      }
       if (
-        !options?.ssr &&
         id !== preloadHelperId &&
         code.includes('new URL') &&
         code.includes(`import.meta.url`)
