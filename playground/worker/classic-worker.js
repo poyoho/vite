@@ -10,10 +10,10 @@ self.addEventListener('message', () => {
   })
 })
 
-import('./modules/module0.js').then(module0 => {
+import('./modules/module2.js').then(mods => {
   self.postMessage({
     type: 'classic-worker-import',
-    content: module0.default
+    content: JSON.stringify(mods)
   })
 })
 
