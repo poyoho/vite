@@ -10,6 +10,9 @@ export default defineConfig({
     }
   },
   test: {
+    coverage: {
+      enabled: false
+    },
     include: ['./playground/**/*.spec.[tj]s'],
     setupFiles: ['./playground/vitestSetup.ts'],
     globalSetup: ['./playground/vitestGlobalSetup.ts'],
