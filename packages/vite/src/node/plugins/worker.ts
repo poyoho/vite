@@ -3,8 +3,7 @@ import MagicString from 'magic-string'
 import type { EmittedAsset, OutputChunk } from 'rollup'
 import type { ResolvedConfig } from '../config'
 import type { Plugin } from '../plugin'
-import type { ViteDevServer } from '../server'
-import { ENV_ENTRY, ENV_PUBLIC_PATH } from '../constants'
+import { ENV_PUBLIC_PATH } from '../constants'
 import {
   cleanUrl,
   getHash,
@@ -29,9 +28,9 @@ interface WorkerCache {
   fileNameHash: Map<string, string>
 }
 
-export type WorkerType = 'classic' | 'module' | 'ignore'
-
 export const WORKER_FILE_ID = 'worker_file'
+export const WORKER_MODULE_REDIRECT = 'worker_module_redirect'
+
 const workerCache = new WeakMap<ResolvedConfig, WorkerCache>()
 
 function saveEmitWorkerAsset(
@@ -189,15 +188,10 @@ export async function workerFileToUrl(
 
 export function webWorkerPlugin(config: ResolvedConfig): Plugin {
   const isBuild = config.command === 'build'
-  let server: ViteDevServer
   const isWorker = config.isWorker
 
   return {
     name: 'vite:worker',
-
-    configureServer(_server) {
-      server = _server
-    },
 
     buildStart() {
       if (isWorker) {
@@ -224,30 +218,17 @@ export function webWorkerPlugin(config: ResolvedConfig): Plugin {
 
     async transform(raw, id) {
       const query = parseRequest(id)
-      if (query && query[WORKER_FILE_ID] != null) {
-        // if import worker by worker constructor will had query.type
-        // other type will be import worker by esm
-        const workerType = query['type']! as WorkerType
-        let injectEnv = ''
-
-        if (workerType === 'classic') {
-          injectEnv = `importScripts('${ENV_PUBLIC_PATH}')\n`
-        } else if (workerType === 'module') {
-          injectEnv = `import '${ENV_PUBLIC_PATH}'\n`
-        } else if (workerType === 'ignore') {
-          if (isBuild) {
-            injectEnv = ''
-          } else if (server) {
-            // dynamic worker type we can't know how import the env
-            // so we copy /@vite/env code of server transform result into file header
-            const { moduleGraph } = server
-            const module = moduleGraph.getModuleById(ENV_ENTRY)
-            injectEnv = module?.transformResult?.code || ''
+      if (query) {
+        if (query[WORKER_FILE_ID] != null) {
+          return {
+            code: `import '${ENV_PUBLIC_PATH}'\n` + raw
           }
-        }
-
-        return {
-          code: injectEnv + raw
+        } else if (query[WORKER_MODULE_REDIRECT] != null) {
+          // in dev mode, make the classic worker redirect to module worker
+          const url = await fileToUrl(cleanUrl(id), config, this)
+          return {
+            code: `import('${injectQuery(url, WORKER_FILE_ID)}')`
+          }
         }
       }
       if (
@@ -296,7 +277,6 @@ export function webWorkerPlugin(config: ResolvedConfig): Plugin {
       } else {
         url = await fileToUrl(cleanUrl(id), config, this)
         url = injectQuery(url, WORKER_FILE_ID)
-        url = injectQuery(url, `type=${workerType}`)
       }
 
       if (query.url != null) {

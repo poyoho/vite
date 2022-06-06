@@ -115,3 +115,9 @@ test('url query worker', async () => {
 test('import.meta.glob eager in worker', async () => {
   expect(await page.textContent('.importMetaGlobEager-worker')).toMatch('["')
 })
+
+test('import syntax in classic worker', async () => {
+  expect(await page.textContent('.classic-worker-import')).toMatch(
+    '{"msg1":"module1","msg2":"module2"}'
+  )
+})

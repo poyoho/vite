@@ -14,7 +14,11 @@ classicWorker = new Worker(new URL('../classic-worker.js', import.meta.url))
 classicWorker.addEventListener('message', ({ data, type }) => {
   text(`.${data.type}`, JSON.stringify(data.content))
 })
-classicWorker.postMessage('ping')
+
+// worker module redirect need time to load worker script
+setTimeout(() => {
+  classicWorker.postMessage('ping')
+}, 400)
 
 const classicSharedWorker = new SharedWorker(
   new URL('../classic-shared-worker.js', import.meta.url),
