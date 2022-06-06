@@ -61,9 +61,15 @@
 
 <p>
   new Worker(new URL('./classic-worker.js', import.meta.url))
-  <span class="classname">.classic-worker</span>
+  <span class="classname">.classic-worker-import-script</span>
 </p>
-<code class="classic-worker"></code>
+<code class="classic-worker-import-script"></code>
+
+<p>
+  new Worker(new URL('./classic-worker.js', import.meta.url))
+  <span class="classname">.classic-worker-import</span>
+</p>
+<code class="classic-worker-import"></code>
 
 <p>
   new SharedWorker(new URL('./classic-shared-worker.js', import.meta.url), {

@@ -11,8 +11,8 @@ let classicWorker = new Worker(
 // just test for case: ') ... ,' mean no worker options parmas
 classicWorker = new Worker(new URL('../classic-worker.js', import.meta.url))
 
-classicWorker.addEventListener('message', ({ data }) => {
-  text('.classic-worker', JSON.stringify(data))
+classicWorker.addEventListener('message', ({ data, type }) => {
+  text(`.${data.type}`, JSON.stringify(data.content))
 })
 classicWorker.postMessage('ping')
 
