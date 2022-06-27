@@ -20,8 +20,8 @@ function formatComment(record) {
 
   return [
     '<!--report-->',
-    `total: ${total(record.serve)}ms`,
-    `total: ${total(record.build)}ms`,
+    `total(serve): ${total(record.serve)}ms`,
+    `total(build): ${total(record.build)}ms`,
     `<details><summary> Toggle detail... </summary>`,
     '\n## Top 10 (server)\n',
     '|hooks|file|timing|',
