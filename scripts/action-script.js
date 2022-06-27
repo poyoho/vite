@@ -37,8 +37,8 @@ function formatComment(record) {
 
 module.exports = async function action(github, context) {
   const res = {
-    serve: require('./report.serve.json'),
-    build: require('./report.build.json')
+    serve: require('../report.serve.json'),
+    build: require('../report.build.json')
   }
   const comment = {
     issue_number: context.issue.number,

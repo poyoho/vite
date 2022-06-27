@@ -63,7 +63,7 @@ export default function ReporterPlugin(): Plugin {
 process.on('exit', () => {
   writeFileSync(
     path.join(__dirname, `../report.${type}.json`),
-    JSON.stringify(res, null, 2),
+    JSON.stringify(res),
     { encoding: 'utf8' }
   )
 })
