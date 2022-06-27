@@ -61,6 +61,11 @@ export default function ReporterPlugin(): Plugin {
 
 process.on('exit', () => {
   writeFileSync(
+    path.join(__dirname, '../report.json'),
+    JSON.stringify(res, null, 2),
+    { encoding: 'utf8' }
+  )
+  writeFileSync(
     path.join(__dirname, '../report.md'),
     '<!--report-->\n' +
       '## Top 10 (change in each commit)\n' +
