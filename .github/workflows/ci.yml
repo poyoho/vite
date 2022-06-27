@@ -54,7 +54,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: 'Everything is OK. Thank you for the PR!'
+              body: '1111'
             })
 
       - name: Install pnpm
