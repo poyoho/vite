@@ -7,6 +7,7 @@ interface ReportInfo {
   timing: number
 }
 
+const type = process.env.VITE_TEST_BUILD ? 'build' : 'serve'
 const res = {} as Record<string, ReportInfo>
 
 export default function ReporterPlugin(): Plugin {
@@ -61,29 +62,8 @@ export default function ReporterPlugin(): Plugin {
 
 process.on('exit', () => {
   writeFileSync(
-    path.join(__dirname, '../report.json'),
+    path.join(__dirname, `../report.${type}.json`),
     JSON.stringify(res, null, 2),
-    { encoding: 'utf8' }
-  )
-  writeFileSync(
-    path.join(__dirname, '../report.md'),
-    [
-      '<!--report-->',
-      `total: ${Object.values(res).reduce(
-        (sum, info) => (sum += info.timing),
-        0
-      )}`,
-      `<details><summary> Toggle detail... </summary>`,
-      '## Top 10',
-      '|hooks|file|timing|',
-      '|-----|----|------|',
-      Object.entries(res)
-        .sort((a, b) => b[1].timing - a[1].timing)
-        .slice(0, 10)
-        .map((dat) => `|${dat[1].hooks}|${dat[0]}|${dat[1].timing}|`)
-        .join('\n'),
-      `</details>`
-    ].join('\n'),
     { encoding: 'utf8' }
   )
 })
