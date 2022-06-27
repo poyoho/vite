@@ -68,7 +68,11 @@ process.on('exit', () => {
   writeFileSync(
     path.join(__dirname, '../report.md'),
     '<!--report-->\n' +
-      '## Top 10 (change in each commit)\n' +
+      `total: ${Object.values(res).reduce(
+        (sum, info) => (sum += info.timing),
+        0
+      )}\n` +
+      '## Top 10\n' +
       '|hooks|file|timing|\n' +
       '|-----|----|------|\n' +
       Object.entries(res)
