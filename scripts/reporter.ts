@@ -67,19 +67,23 @@ process.on('exit', () => {
   )
   writeFileSync(
     path.join(__dirname, '../report.md'),
-    '<!--report-->\n' +
+    [
+      '<!--report-->',
       `total: ${Object.values(res).reduce(
         (sum, info) => (sum += info.timing),
         0
-      )}\n` +
-      '## Top 10\n' +
-      '|hooks|file|timing|\n' +
-      '|-----|----|------|\n' +
+      )}`,
+      `<details><summary> Toggle detail... </summary>`,
+      '## Top 10',
+      '|hooks|file|timing|',
+      '|-----|----|------|',
       Object.entries(res)
         .sort((a, b) => b[1].timing - a[1].timing)
         .slice(0, 10)
         .map((dat) => `|${dat[1].hooks}|${dat[0]}|${dat[1].timing}|`)
         .join('\n'),
+      `</details>`
+    ].join('\n'),
     { encoding: 'utf8' }
   )
 })
