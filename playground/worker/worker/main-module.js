@@ -1,3 +1,4 @@
+import DepWorker from 'dep-worker?worker'
 import myWorker from '../my-worker?worker'
 import InlineWorker from '../my-worker?worker&inline'
 import mySharedWorker from '../my-shared-worker?sharedworker&name=shared'
@@ -18,6 +19,11 @@ worker.addEventListener('message', (e) => {
   text('.mode', e.data.mode)
   text('.bundle-with-plugin', e.data.bundleWithPlugin)
   text('.asset-url', e.data.viteSvg)
+})
+
+const depWorker = new DepWorker()
+worker.addEventListener('message', (e) => {
+  text('.dep-worker', e.data.data)
 })
 
 const inlineWorker = new InlineWorker()

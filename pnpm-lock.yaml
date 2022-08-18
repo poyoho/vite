@@ -1222,12 +1222,17 @@ importers:
     specifiers:
       '@vitejs/plugin-vue-jsx': workspace:*
       dep-to-optimize: file:./dep-to-optimize
+      dep-worker: file:./dep-worker
     dependencies:
       dep-to-optimize: file:playground/worker/dep-to-optimize
+      dep-worker: file:playground/worker/dep-worker
     devDependencies:
       '@vitejs/plugin-vue-jsx': link:../../packages/plugin-vue-jsx
 
   playground/worker/dep-to-optimize:
+    specifiers: {}
+
+  playground/worker/dep-worker:
     specifiers: {}
 
 packages:
@@ -3908,8 +3913,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
-      JSONStream: 1.3.5
       is-text-path: 1.0.1
+      JSONStream: 1.3.5
       lodash: 4.17.21
       meow: 8.1.2
       split2: 3.2.2
@@ -9530,6 +9535,12 @@ packages:
 
   file:playground/worker/dep-to-optimize:
     resolution: {directory: playground/worker/dep-to-optimize, type: directory}
-    name: dep-to-optimize
+    name: dep-worker
+    version: 1.0.0
+    dev: false
+
+  file:playground/worker/dep-worker:
+    resolution: {directory: playground/worker/dep-worker, type: directory}
+    name: dep-worker
     version: 1.0.0
     dev: false

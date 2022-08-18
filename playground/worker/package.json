@@ -24,7 +24,8 @@
     "debug": "node --inspect-brk ../../packages/vite/bin/vite"
   },
   "dependencies": {
-    "dep-to-optimize": "file:./dep-to-optimize"
+    "dep-to-optimize": "file:./dep-to-optimize",
+    "dep-worker": "file:./dep-worker"
   },
   "devDependencies": {
     "@vitejs/plugin-vue-jsx": "workspace:*"
