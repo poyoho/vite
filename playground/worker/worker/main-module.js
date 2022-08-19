@@ -1,4 +1,5 @@
 import DepWorker from 'dep-worker?worker'
+import DepWorker2 from 'dep-worker/worker.js?worker'
 import myWorker from '../my-worker?worker'
 import InlineWorker from '../my-worker?worker&inline'
 import mySharedWorker from '../my-shared-worker?sharedworker&name=shared'
@@ -24,6 +25,11 @@ worker.addEventListener('message', (e) => {
 const depWorker = new DepWorker()
 depWorker.addEventListener('message', (e) => {
   text('.dep-worker', e.data.data)
+})
+
+const depWorker2 = new DepWorker2()
+depWorker2.addEventListener('message', (e) => {
+  text('.dep-worker-complete-import', e.data.data)
 })
 
 const inlineWorker = new InlineWorker()
