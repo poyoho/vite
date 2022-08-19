@@ -22,7 +22,7 @@ worker.addEventListener('message', (e) => {
 })
 
 const depWorker = new DepWorker()
-worker.addEventListener('message', (e) => {
+depWorker.addEventListener('message', (e) => {
   text('.dep-worker', e.data.data)
 })
 

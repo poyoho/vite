@@ -25,6 +25,13 @@ test('inlined', async () => {
   await untilUpdated(() => page.textContent('.pong-inline'), 'pong')
 })
 
+test('dep worker', async () => {
+  await untilUpdated(
+    () => page.textContent('.dep-worker'),
+    'dep-worker message'
+  )
+})
+
 test('shared worker', async () => {
   await untilUpdated(() => page.textContent('.tick-count'), 'pong')
 })
@@ -46,7 +53,7 @@ describe.runIf(isBuild)('build', () => {
   test('inlined code generation', async () => {
     const assetsDir = path.resolve(testDir, 'dist/iife/assets')
     const files = fs.readdirSync(assetsDir)
-    expect(files.length).toBe(16)
+    expect(files.length).toBe(17)
     const index = files.find((f) => f.includes('main-module'))
     const content = fs.readFileSync(path.resolve(assetsDir, index), 'utf-8')
     const worker = files.find((f) => f.includes('my-worker'))

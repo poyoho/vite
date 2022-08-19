@@ -31,6 +31,13 @@ test.skip('inlined', async () => {
   await untilUpdated(() => page.textContent('.pong-inline'), 'pong', true)
 })
 
+test('dep worker', async () => {
+  await untilUpdated(
+    () => page.textContent('.dep-worker'),
+    'dep-worker message'
+  )
+})
+
 test('shared worker', async () => {
   await untilUpdated(() => page.textContent('.tick-count'), 'pong', true)
 })

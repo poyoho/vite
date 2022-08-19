@@ -1144,3 +1144,8 @@ export const isNonDriveRelativeAbsolutePath = (p: string): boolean => {
   if (!isWindows) return p.startsWith('/')
   return windowsDrivePathPrefixRE.test(p)
 }
+
+const internalVirtualModuleRE = /(\?|&)worker\b|url\b|inline\b/
+
+export const isInternalVirtualModuleRequest = (id: string): boolean =>
+  internalVirtualModuleRE.test(id)

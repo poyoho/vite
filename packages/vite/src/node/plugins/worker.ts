@@ -186,6 +186,22 @@ export function webWorkerPlugin(config: ResolvedConfig): Plugin {
   return {
     name: 'vite:worker',
 
+    async resolveId(id, importer, options) {
+      const parsedQuery = parseRequest(id)
+      if (
+        parsedQuery &&
+        (parsedQuery.worker ?? parsedQuery.sharedworker) != null
+      ) {
+        const pureId = id.replace(/(\?|&)worker\b|sharedworker\b/, '')
+        const resolved = await this.resolve(pureId, importer, options)
+        if (resolved) {
+          return parsedQuery.worker != null
+            ? injectQuery(resolved.id, 'worker')
+            : injectQuery(resolved.id, 'sharedworker')
+        }
+      }
+    },
+
     configureServer(_server) {
       server = _server
     },
